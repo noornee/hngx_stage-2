@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/noornee/hngx_stage-2/pkg/repository/storage/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
@@ -30,6 +31,7 @@ type UpdateUserRequest struct {
 }
 
 func (u *User) CreateUser(db *mongodb.Database) error {
+	u.Username = strings.ToLower(u.Username)
 	err := db.CreateOneRecord(CollectionName, &u)
 	if err != nil {
 		return fmt.Errorf("there was an error creating user %s", err.Error())
@@ -46,6 +48,7 @@ func (u *User) GetUserByID(db *mongodb.Database) error {
 }
 
 func (u *User) GetUserByUsername(db *mongodb.Database) error {
+	u.Username = strings.ToLower(u.Username)
 	err := db.SelectOneFromDb(CollectionName, &u, bson.M{"username": u.Username})
 	if err != nil {
 		return err
@@ -54,6 +57,7 @@ func (u *User) GetUserByUsername(db *mongodb.Database) error {
 }
 
 func (u *User) UpdateUserByUsername(db *mongodb.Database) error {
+	u.Username = strings.ToLower(u.Username)
 	err := db.UpdateAllFields(CollectionName, &u, bson.M{"username": u.Username})
 	if err != nil {
 		return fmt.Errorf("there was an error updating user %s", err.Error())
@@ -62,6 +66,7 @@ func (u *User) UpdateUserByUsername(db *mongodb.Database) error {
 }
 
 func (u *User) UpdateUserByID(db *mongodb.Database) error {
+	u.Username = strings.ToLower(u.Username)
 	err := db.UpdateAllFields(CollectionName, &u, bson.M{"_id": u.ID})
 	if err != nil {
 		return fmt.Errorf("there was an error updating user %s", err.Error())
