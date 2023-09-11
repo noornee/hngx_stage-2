@@ -13,6 +13,9 @@ func User(r *gin.Engine, db *mongodb.Database, validate *validator.Validate) *gi
 	v1 := r.Group("api/v1")
 	{
 		v1.POST("/create", user.CreateUser)
+		v1.GET("/get/:username", user.GetUser)
+		v1.PUT("/update/:id", user.UpdateUser)
+		v1.DELETE("/delete/:id", user.DeleteUser)
 	}
 
 	return r
