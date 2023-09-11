@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/noornee/hngx_stage-2/internal/config"
 	"github.com/noornee/hngx_stage-2/pkg/repository/storage/mongodb"
 	"github.com/noornee/hngx_stage-2/pkg/router"
 )
@@ -12,7 +13,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000"
+		port = config.Setup().PORT
 	}
 
 	db, _ := mongodb.ConnectToDB()

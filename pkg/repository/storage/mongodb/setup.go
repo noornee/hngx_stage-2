@@ -4,13 +4,16 @@ import (
 	"context"
 	"log"
 
+	"github.com/noornee/hngx_stage-2/internal/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const (
-	DBName        = "HNGX_STAGE_2"
-	ConnectionURI = "mongodb://localhost:27017"
+var env = config.Setup()
+
+var (
+	DBName        = env.DB_NAME
+	ConnectionURI = env.CONNECTION_URI
 )
 
 type Database struct {
