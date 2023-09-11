@@ -7,12 +7,35 @@ import (
 	"github.com/noornee/hngx_stage-2/internal/models"
 	"github.com/noornee/hngx_stage-2/pkg/repository/storage/mongodb"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
+
+// check if user with the username already exist
+func checkIfUserExist(db *mongodb.Database, username string) error {
+	user := models.User{
+		Username: username,
+	}
+
+	err := user.GetUserByUsername(db)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return fmt.Errorf("user does not exist")
+		}
+		return err
+	}
+
+	return nil
+}
 
 func CreateUserService(db *mongodb.Database, req models.CreateUserRequest) (int, error) {
 	user := models.User{
 		Username: req.Username,
 		AboutMe:  fmt.Sprintf("My name is %s and I am Awesome!", req.Username),
+	}
+
+	// check if user with the username already exist
+	if err := checkIfUserExist(db, req.Username); err == nil {
+		return http.StatusBadRequest, fmt.Errorf("username already taken :P")
 	}
 
 	if err := user.CreateUser(db); err != nil {
@@ -25,6 +48,11 @@ func CreateUserService(db *mongodb.Database, req models.CreateUserRequest) (int,
 func GetUserService(db *mongodb.Database, username string) (models.User, int, error) {
 	user := models.User{
 		Username: username,
+	}
+
+	// check if user exist
+	if err := checkIfUserExist(db, username); err != nil {
+		return user, http.StatusBadRequest, err
 	}
 
 	if err := user.GetUserByUsername(db); err != nil {
@@ -49,6 +77,12 @@ func UpdateUserService(db *mongodb.Database, req models.UpdateUserRequest, userI
 	}
 
 	if req.Username != "" {
+		// check if user with the same username already exist
+		if err := checkIfUserExist(db, req.Username); err == nil {
+			return http.StatusBadRequest, fmt.Errorf("username already taken :P")
+		}
+
+		// if not, go on and update
 		user.Username = req.Username
 	}
 

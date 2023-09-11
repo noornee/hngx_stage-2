@@ -10,12 +10,12 @@ import (
 func User(r *gin.Engine, db *mongodb.Database, validate *validator.Validate) *gin.Engine {
 	user := user.Controller{DB: db, Validator: validate}
 
-	v1 := r.Group("api/v1")
+	v1 := r.Group("api")
 	{
-		v1.POST("/create", user.CreateUser)
-		v1.GET("/get/:username", user.GetUser)
-		v1.PUT("/update/:id", user.UpdateUser)
-		v1.DELETE("/delete/:id", user.DeleteUser)
+		v1.POST("", user.CreateUser)
+		v1.GET("/:username", user.GetUser)
+		v1.PUT("/:id", user.UpdateUser)
+		v1.DELETE("/:id", user.DeleteUser)
 	}
 
 	return r
