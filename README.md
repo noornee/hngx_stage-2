@@ -102,9 +102,12 @@ curl -X DELETE 'localhost:8000/api/650084150bc493d01f85144d'
   "status": 200
 }
 ```
+## ER DIAGRAM
+![HNGx STAGE 2 API ER DIAGRAM](https://github.com/noornee/hngx_stage-2/assets/71889751/4669291c-f34c-4aac-85d7-cc80cd1034ac)
 
 
 # TODO:
-- [ ] UML/ER DIAGRAM
-- [ ] Deploy on render
-- [ ] Postman test scripts
+- [x] CRUD Endpoints
+- [x] UML/ER DIAGRAM
+- [x] Deploy on render
+- [x] Postman test docs
