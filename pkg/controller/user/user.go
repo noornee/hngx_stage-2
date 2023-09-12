@@ -22,25 +22,25 @@ func (base *Controller) CreateUser(c *gin.Context) {
 		return
 	}
 
-	code, err := services.CreateUserService(base.DB, req)
+	userData, code, err := services.CreateUserService(base.DB, req)
 	if err != nil {
 		c.JSON(code, gin.H{"message": "failed to parse request", "error": err.Error(), "status": code})
 		return
 	}
 
-	c.JSON(code, gin.H{"message": "user creation successful", "status": code})
+	c.JSON(code, gin.H{"message": "user creation successful", "data": userData, "status": code})
 }
 
 func (base *Controller) GetUser(c *gin.Context) {
-	username := c.Params.ByName("username")
+	id := c.Params.ByName("id")
 
-	result, code, err := services.GetUserService(base.DB, username)
+	result, code, err := services.GetUserService(base.DB, id)
 	if err != nil {
 		c.JSON(code, gin.H{"message": "failed to parse request", "error": err.Error(), "status": code})
 		return
 	}
 
-	c.JSON(code, gin.H{"message": "success", "data": result, "status": code})
+	c.JSON(code, gin.H{"message": "user retrieval successful", "data": result, "status": code})
 }
 
 func (base *Controller) UpdateUser(c *gin.Context) {
@@ -63,9 +63,9 @@ func (base *Controller) UpdateUser(c *gin.Context) {
 }
 
 func (base *Controller) DeleteUser(c *gin.Context) {
-	username := c.Params.ByName("id")
+	id := c.Params.ByName("id")
 
-	code, err := services.DeleteUserService(base.DB, username)
+	code, err := services.DeleteUserService(base.DB, id)
 	if err != nil {
 		c.JSON(code, gin.H{"message": "failed to parse request", "error": err.Error(), "status": code})
 		return
