@@ -19,7 +19,10 @@ by default, it runs on port :8000
 
 <b style="color:yellow">CREATE</b> a new user
 ```bash
+# Create a new user
 # localhost:8000/api
+# request body should contain a field called `name` this is required.
+
 # Example request:
 
 curl -X POST 'localhost:8000/api' \
@@ -44,8 +47,11 @@ curl -X POST 'localhost:8000/api' \
 
 <b style="color:green">GET</b> user by id
 ```bash
-# Example request:
+# Retrieve user by id
 # localhost:8000/api/:id
+# `id` url parmeter refers to the user id.
+
+# Example request:
 curl -X GET 'localhost:8000/api/650084150bc493d01f85144d'
 
 # Example response:
@@ -63,7 +69,10 @@ curl -X GET 'localhost:8000/api/650084150bc493d01f85144d'
 
 <b style="color:blue">UPDATE</b> user by id
 ```bash
+# Update user data by id
 # localhost:8000/api/:id
+# `id` url parmeter refers to the user id.
+
 # Example request:
 curl -X PUT 'localhost:8000/api/650084150bc493d01f85144d' \
 --header 'Content-Type: application/json' \
@@ -80,7 +89,10 @@ curl -X PUT 'localhost:8000/api/650084150bc493d01f85144d' \
 
 <b style="color:red">DELETE</b> user by id
 ```bash
+# Delete user data by id
 # localhost:8000/api/:id
+# `id` url parmeter refers to the user id.
+
 # Example request:
 curl -X DELETE 'localhost:8000/api/650084150bc493d01f85144d'
 

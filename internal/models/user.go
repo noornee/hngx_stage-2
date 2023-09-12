@@ -53,6 +53,14 @@ func (u *User) GetUserByID(db *mongodb.Database) error {
 	return nil
 }
 
+func (u *User) GetUserByName(db *mongodb.Database) error {
+	err := db.SelectOneFromDb(CollectionName, &u, bson.M{"name": u.Name})
+	if err != nil {
+		return err
+	}
+	return err
+}
+
 func (u *User) UpdateUserByID(db *mongodb.Database) error {
 	err := db.UpdateAllFields(CollectionName, &u, bson.M{"_id": u.ID})
 	if err != nil {
